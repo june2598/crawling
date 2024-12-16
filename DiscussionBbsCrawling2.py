@@ -6,6 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 import pandas as pd
 from bs4 import BeautifulSoup
 import time
+from datetime import datetime
 
 
 url = 'https://finance.naver.com/sise/etf.naver'
@@ -21,6 +22,8 @@ driver.implicitly_wait(2)
 soup = BeautifulSoup(driver.page_source, 'html.parser')
 
 etf_name = input('ETF상품명을 입력하세요: ')
+start_date = input('시작일을 입력하세요 (YYYY.MM.DD): ')
+end_date = input('종료일을 입력하세요 (YYYY.MM.DD): ')
 
 
 detail_url = 'https://finance.naver.com' + soup.select_one('#etfItemTable').find('a', string=etf_name).attrs['href']
@@ -28,6 +31,7 @@ detail_url = 'https://finance.naver.com' + soup.select_one('#etfItemTable').find
 # 토론실 링크 주소 가져오기
 discussion_bbs_url = detail_url.replace('main', 'board')
 driver.get(discussion_bbs_url)
+
 
 def get_post_elements():
   trs = driver.find_elements(By.CSS_SELECTOR,'#content > div.section.inner_sub > table.type2 > tbody > tr')
@@ -41,24 +45,43 @@ post_empathy=[]
 post_dislike=[]
 post_contents=[]
 
+# 날짜 형식 변환
+start_date = datetime.strptime(start_date, '%Y.%m.%d')
+end_date = datetime.strptime(end_date, '%Y.%m.%d')
+
 
 for tr in get_post_elements()[4:]:
   cols = tr.find_elements(By.TAG_NAME, "td")
   if len(cols) > 2:
     title_ele = cols[1].find_element(By.TAG_NAME, "a")
-    post_date.append(cols[0].text)
-    post_title.append(title_ele.get_attribute('title'))
-    post_view_count.append(cols[3].text)
-    post_empathy.append(cols[4].text)
-    post_dislike.append(cols[5].text)
-    post_links.append(title_ele.get_attribute('href'))
 
+    #날짜 추출 (YYYY.MM.DD HH:MM)
+    post_date_str = cols[0].text.strip()
+
+    # 날짜 형식을 YYYY.MM.DD HH:MM로 변환
+    post_date_obj = datetime.strptime(post_date_str, '%Y.%m.%d %H:%M')
+
+    # 날짜 구간 필터링 :
+    if start_date <= post_date_obj <= end_date:
+      post_date.append(post_date_str)
+      post_title.append(title_ele.get_attribute('title'))
+      post_view_count.append(cols[3].text.strip())
+      post_empathy.append(cols[4].text.strip())
+      post_dislike.append(cols[5].text.strip())
+      post_links.append(title_ele.get_attribute('href'))
+
+# 게시글 본문 가져오기
 for post_link in post_links:
   driver.get(post_link)
-  time.sleep(2)
+  WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "#body")))
   post_soup = BeautifulSoup(driver.page_source, 'html.parser')
 
-  post_contents.append(post_soup.select_one("#body").text.strip())
+  # 본문 내용 정리
+  body_content = post_soup.select_one("#body")
+  if body_content:
+    post_contents.append(body_content.text.strip().replace('\n', ' '))
+  else:
+    post_contents.append("본문 없음")
 
 post_infos = {
   '날짜': post_date,
@@ -69,9 +92,9 @@ post_infos = {
   '본문': post_contents
 }
 post_df = pd.DataFrame(post_infos)
-print(post_df.head(2))
+print(post_df)
 
-post_df.to_csv('etf_discussion_posts.csv', index=False, encoding='utf-8-sig')
+post_df.to_excel('etf_discussion_posts.xlsx', index=False, encoding='utf-8-sig')
 
 # 드라이버 종료
 driver.quit()
