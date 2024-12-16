@@ -5,6 +5,8 @@ import pandas as pd
 from bs4 import BeautifulSoup
 import time
 
+
+
 # TIGER 2차전지 테마주
 url = 'https://finance.naver.com/item/main.naver?code=305540'
 

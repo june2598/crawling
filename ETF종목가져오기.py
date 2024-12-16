@@ -4,6 +4,9 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import time
+import datetime
+
 
 url = 'https://finance.naver.com/sise/etf.naver'
 
@@ -12,6 +15,19 @@ chrome_options.add_experimental_option('detach', True)
 
 driver = webdriver.Chrome(options=chrome_options)
 driver.get(url)
+
+# 페이지가 로드될 때까지 대기
+time.sleep(5)  # 필요에 따라 대기 시간 조정
+
+# ETF 테이블에서 링크 추출
+link_elements = driver.find_elements(By.CSS_SELECTOR, '#etfItemTable tr td a')
+links = [elem.get_attribute('href') for elem in link_elements]
+
+# 링크를 DataFrame으로 변환
+link_data = {
+    'link': links
+}
+link_df = pd.DataFrame(link_data, columns=['link'])
 
 # 특정 요소가 로드될 때까지 대기
 try:
@@ -22,7 +38,7 @@ except Exception as e:
     print("Element not found:", e)
 
 # ETF 테이블의 모든 행(row) 가져오기
-rows = driver.find_elements(By.CSS_SELECTOR, ".type_1 tr")  # tr 추가
+rows = driver.find_elements(By.CSS_SELECTOR, ".type_1 tr")
 
 # rows 리스트의 길이 출력
 print(f"Rows count: {len(rows)}")  # Rows의 개수 출력
@@ -44,12 +60,22 @@ for row in rows:
         }
         etf_data.append(etf_info)
 
+
+
 # DataFrame으로 변환
 etf_df = pd.DataFrame(etf_data)
 
-# 결과 출력
-print(etf_df)
+# link를 가져온부분과 merge하기 (link를 나중 활용하기 위함)
+final_etf_ef = pd.merge(etf_df, link_df, how='left', left_index=True, right_index=True)
 
-# etf_df.to_csv('etf_data.csv', index=False, encoding='utf-8-sig')
+# 결과 출력
+print(final_etf_ef)
+
+# 오늘 날짜 가져오기
+today = datetime.datetime.today()
+today = today.strftime('%Y-%m-%d')
+new_file_name = f'final_etf_data_{today}.csv'
+
+final_etf_ef.to_csv(new_file_name, index=False, encoding='utf-8-sig')
 
 driver.quit()

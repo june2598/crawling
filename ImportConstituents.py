@@ -18,14 +18,14 @@ for ele in element_list :
   link = ele.select_one('a[href]')
   proportion = ele.select_one('.per')
   fluctuationRate = ele.select('em.f_down, em.f_up')
-  number_of_share = ele.select_one('td:nth-of-type(2)')  # 4번째 td 요소
-  price = ele.select_one('td:nth-of-type(4)')  # 4번째 td 요소
-  previous_close = ele.select_one('td:nth-of-type(5)')  # 5번째 td 요소
+  number_of_share = ele.select_one('td:nth-of-type(2)')
+  price = ele.select_one('td:nth-of-type(4)')
+  previous_close = ele.select_one('td:nth-of-type(5)')
 
   #구성족목명 및 링크
   if link:
     row_data['구성종목'] = link.text
-    row_data['link'] = link.attrs.get('href')
+    row_data['link'] = "https://finance.naver.com"+link.attrs.get('href')
 
   if number_of_share:
     row_data['주식수'] = number_of_share.text

@@ -23,14 +23,14 @@ WebDriverWait(driver, 10).until(
 data = []
 
 # 데이터 추출
-rows = driver.find_elements(By.CSS_SELECTOR, '.tb_type1_a > tbody > tr')
+rows = driver.find_elements(By.CSS_SELECTOR, '.tb_type1_a > tbody:nth-child(2) > tr')
 for row in rows:
   row_data = {}
-
   try:
     link = row.find_element(By.CSS_SELECTOR, 'a[href]')
     row_data['구성종목'] = link.text
-    row_data['link'] = "https://finance.naver.com" + link.get_attribute('href')  # 절대 경로로 변환
+    # row_data['link'] = "https://finance.naver.com" + link.get_attribute('href')  # 절대 경로로 변환
+    row_data['link'] = link.get_attribute('href')
   except Exception as e:
     print("구성종목 링크를 찾는 중 오류 발생:", e)
 
