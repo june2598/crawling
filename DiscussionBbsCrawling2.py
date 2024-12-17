@@ -6,7 +6,10 @@ from selenium.webdriver.support import expected_conditions as EC
 import pandas as pd
 from bs4 import BeautifulSoup
 import time
-from datetime import datetime
+
+'''
+step2) 상품명에 더해 시작날짜와 종료일을 입력받아, 해당구간의 게시글을 스크래핑
+'''
 
 
 url = 'https://finance.naver.com/sise/etf.naver'
@@ -46,8 +49,8 @@ post_dislike=[]
 post_contents=[]
 
 # 날짜 형식 변환
-start_date = datetime.strptime(start_date, '%Y.%m.%d')
-end_date = datetime.strptime(end_date, '%Y.%m.%d')
+start_date = pd.to_datetime(start_date, format='%Y.%m.%d')
+end_date = pd.to_datetime(end_date, format='%Y.%m.%d')
 
 
 for tr in get_post_elements()[4:]:
@@ -59,7 +62,7 @@ for tr in get_post_elements()[4:]:
     post_date_str = cols[0].text.strip()
 
     # 날짜 형식을 YYYY.MM.DD HH:MM로 변환
-    post_date_obj = datetime.strptime(post_date_str, '%Y.%m.%d %H:%M')
+    post_date_obj = pd.to_datetime(post_date_str, format='%Y.%m.%d %H:%M')
 
     # 날짜 구간 필터링 :
     if start_date <= post_date_obj <= end_date:

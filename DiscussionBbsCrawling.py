@@ -7,6 +7,9 @@ import pandas as pd
 from bs4 import BeautifulSoup
 import time
 
+'''
+step1) 상품명을 입력받아, 해당 상품의 토론 게시판 첫페이지 글을 스크래핑
+'''
 
 url = 'https://finance.naver.com/sise/etf.naver'
 

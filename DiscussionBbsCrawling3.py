@@ -5,9 +5,15 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import pandas as pd
 from bs4 import BeautifulSoup
-import time
-from datetime import datetime
 from selenium.common.exceptions import NoSuchElementException
+
+'''
+final)
+ETF상품명, 시작일, 종료일을 입력받아 해당 종목의 종목 토론방 게시글을 스크래핑하는 기능 구현
+페이징을 고려해 페이징을 이동하면서 스크래핑 하는 기능까지 구현
+클린봇이 필터링 한 게시글로 인한 충돌의 해결
+각종예외 상황처리, 대기시간 설정등 미세조정
+'''
 
 url = 'https://finance.naver.com/sise/etf.naver'
 
@@ -31,10 +37,8 @@ detail_url = 'https://finance.naver.com' + soup.select_one('#etfItemTable').find
 discussion_bbs_url = detail_url.replace('main', 'board')
 
 # 날짜 형식 변환
-start_date = datetime.strptime(start_date, '%Y.%m.%d')
-end_date = datetime.strptime(end_date, '%Y.%m.%d')
-
-
+start_date = pd.to_datetime(start_date, format='%Y.%m.%d')
+end_date = pd.to_datetime(end_date, format='%Y.%m.%d')
 
 post_links = []
 post_date = []
@@ -73,26 +77,29 @@ while not stop:
   for tr in post_rows:
     cols = tr.find_elements(By.TAG_NAME, "td")
 
-    title_ele = cols[1].find_element(By.TAG_NAME, "a")
+    # 2024-12-17 추가 : '클린봇이 이용자 보호를 위해 숨긴 게시글입니다.' 게시글의 경우 td 안에 a 태그가 없기때문에, 이 조건으로 거르기 전에는 에러가 발생했었음
+    if len(cols[1].find_elements(By.TAG_NAME, "a")) > 0:                        # 2024-12-17 추가한 조건
+      title_ele = cols[1].find_element(By.TAG_NAME, "a")
+      # 날짜 추출 (YYYY.MM.DD HH:MM)
+      post_date_str = cols[0].text.strip()
+      # 문자열을 날짜 타입으로 변경
+      post_date_obj = pd.to_datetime(post_date_str, format='%Y.%m.%d %H:%M')
 
-    # 날짜 추출 (YYYY.MM.DD HH:MM)
-    post_date_str = cols[0].text.strip()
+      # 날짜 필터링
+      if start_date <= post_date_obj <= end_date:
+        post_date.append(post_date_str)                         # 날짜
+        post_title.append(title_ele.get_attribute('title'))     # 게시글 제목
+        post_view_count.append(cols[3].text.strip())            # 조회수
+        post_empathy.append(cols[4].text.strip())               # 공감
+        post_dislike.append(cols[5].text.strip())               # 비공감
+        post_links.append(title_ele.get_attribute('href'))      # 게시글 본문을 찾기위한 링크
 
-    # 날짜 형식을 YYYY.MM.DD HH:MM로 변환
-    post_date_obj = datetime.strptime(post_date_str, '%Y.%m.%d %H:%M')
-
-    # 날짜 필터링
-    if start_date <= post_date_obj <= end_date:
-      post_date.append(post_date_str)
-      post_title.append(title_ele.get_attribute('title'))
-      post_view_count.append(cols[3].text.strip())
-      post_empathy.append(cols[4].text.strip())
-      post_dislike.append(cols[5].text.strip())
-      post_links.append(title_ele.get_attribute('href'))
+    else:           # td가 정상적으로 6개 존재하지만 a태그가 없는 tr -> 클린봇이 차단한 게시글이라는 것을 파악함
+      continue
 
   # 마지막 게시글의 작성날짜 확인
   last_post_date_str = post_rows[-1].find_elements(By.TAG_NAME, "td")[0].text.strip()
-  last_post_date_obj = datetime.strptime(last_post_date_str, '%Y.%m.%d %H:%M')
+  last_post_date_obj = pd.to_datetime(last_post_date_str, format='%Y.%m.%d %H:%M')
 
   # 현재 페이지가 마지막 페이지 인지 확인
   try:
