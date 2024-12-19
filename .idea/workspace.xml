@@ -5,14 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b9457594-da7b-45df-b634-f41e57603769" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/RealTimePopularSearch.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/RealTimePopularSearch2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/crawling.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/crawling.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MarketPriceSectorDetail.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DiscussionBbsCrawling.py" beforeDir="false" afterPath="$PROJECT_DIR$/DiscussionBbsCrawling.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DiscussionBbsCrawling2.py" beforeDir="false" afterPath="$PROJECT_DIR$/DiscussionBbsCrawling2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DiscussionBbsCrawling3.py" beforeDir="false" afterPath="$PROJECT_DIR$/DiscussionBbsCrawling3.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MarketPriceBySector.py" beforeDir="false" afterPath="$PROJECT_DIR$/MarketPriceBySector.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -38,49 +32,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.DiscussionBbsCrawling.executor": "Run",
-    "Python.DiscussionBbsCrawling2.executor": "Run",
-    "Python.DiscussionBbsCrawling3.executor": "Run",
-    "Python.MarketPriceBySector.executor": "Run",
-    "Python.RealTimePopularSearch.executor": "Run",
-    "Python.RealTimePopularSearch2.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "D:/kdt/project/crawling"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.DiscussionBbsCrawling.executor&quot;: &quot;Run&quot;,
+    &quot;Python.DiscussionBbsCrawling2.executor&quot;: &quot;Run&quot;,
+    &quot;Python.DiscussionBbsCrawling3.executor&quot;: &quot;Run&quot;,
+    &quot;Python.MarketPriceBySector.executor&quot;: &quot;Run&quot;,
+    &quot;Python.MarketPriceSectorDetail.executor&quot;: &quot;Run&quot;,
+    &quot;Python.RealTimePopularSearch.executor&quot;: &quot;Run&quot;,
+    &quot;Python.RealTimePopularSearch2.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/kdt/project/crawling&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\kdt\project\crawling" />
       <recent name="D:\project\crawling" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.RealTimePopularSearch2">
-    <configuration name="DiscussionBbsCrawling2" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="crawling" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/DiscussionBbsCrawling2.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Python.RealTimePopularSearch">
     <configuration name="DiscussionBbsCrawling3" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="crawling" />
       <option name="ENV_FILES" value="" />
@@ -117,6 +90,28 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/MarketPriceBySector.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="MarketPriceSectorDetail" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="crawling" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/MarketPriceSectorDetail.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -171,11 +166,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.RealTimePopularSearch2" />
         <item itemvalue="Python.RealTimePopularSearch" />
+        <item itemvalue="Python.MarketPriceSectorDetail" />
         <item itemvalue="Python.MarketPriceBySector" />
+        <item itemvalue="Python.RealTimePopularSearch2" />
         <item itemvalue="Python.DiscussionBbsCrawling3" />
-        <item itemvalue="Python.DiscussionBbsCrawling2" />
       </list>
     </recent_temporary>
   </component>

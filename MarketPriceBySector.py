@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
 import pandas as pd
 import datetime
+import re
 
 '''
 실시간 업종별 시세 테이블을 가져오는 기능 구현
@@ -26,9 +27,19 @@ sector_data = []
 
 for row in rows:
   cols = row.find_elements(By.TAG_NAME,'td')
+
+
   if len(cols) >= 6:
+    sector_link = cols[0].find_element(By.TAG_NAME, 'a').get_attribute('href')
+    match = re.search(r'no=(\d+)', sector_link)
+
+    #업종 코드 초기화
+    sector_code = None
+    if match:
+      sector_code = match.group(1)
     sector_info = {
-      '종목명': cols[0].text,
+      '업종코드': sector_code,
+      '업종명': cols[0].text,
       '전일비': cols[1].text,
       '전체': cols[2].text,
       '상승': cols[3].text,
